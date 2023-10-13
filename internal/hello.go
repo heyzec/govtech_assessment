@@ -9,29 +9,26 @@ import (
 	"github.com/heyzec/govtech-assignment/internal/config"
 	"github.com/heyzec/govtech-assignment/internal/dataaccess"
 	"github.com/heyzec/govtech-assignment/internal/database"
-
+	"github.com/heyzec/govtech-assignment/internal/handlers"
 )
-
-
-func registerStudents(w http.ResponseWriter, r *http.Request) {
-    w.Write([]byte("welcome again"))
-    return
-}
 
 func main() {
     r := chi.NewRouter()
 	r.Use(middleware.Logger)
+
+    cfg, _ := config.LoadEnv()
+    db := database.GetGormDB(cfg)
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("welcome"))
 	})
 
     r.Route("/api", func(r chi.Router) {
-        r.Post("/register", registerStudents)
+        r.Post("/register", func(w http.ResponseWriter, r *http.Request) {
+            handlers.RegisterStudents(w, r, db)
+        })
     })
 
-    cfg, _ := config.LoadEnv()
-    db := database.GetGormDB(cfg)
 
     students, _ := dataaccess.ListStudents(db)
 

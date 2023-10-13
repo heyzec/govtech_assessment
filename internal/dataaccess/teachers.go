@@ -2,6 +2,7 @@ package dataaccess
 
 import (
     "gorm.io/gorm"
+    "errors"
 
     "github.com/heyzec/govtech-assignment/internal/models"
 )
@@ -24,3 +25,24 @@ func ListTeachers(db *gorm.DB) ([]models.Teacher, error) {
     }
     return teacherList, nil
 }
+
+func FindTeachersByEmail(db *gorm.DB, emails []string) ([]models.Teacher, error) {
+    var teacherList []models.Teacher
+    for _, email := range emails {
+        var teacher models.Teacher
+        err := db.Model(models.Teacher{}).Where("email = ?", email).First(&teacher).Error
+        if err != nil {
+            return nil, errors.New("Teacher not found")
+        }
+        teacherList = append(teacherList, teacher)
+    }
+
+    return teacherList, nil
+}
+
+func RegisterStudentsToTeacher(db *gorm.DB, teacher *models.Teacher, students []models.Student) (error) {
+    // TODO: Prevent adding repeated entries of students
+    teacher.Students = append(teacher.Students, students...)
+    return db.Updates(teacher).Error
+}
+
