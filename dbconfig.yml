@@ -1,0 +1,5 @@
+# Config file read by https://github.com/rubenv/sql-migrate tooling
+development:
+  dialect: postgres
+  datasource: host=localhost user=postgres dbname=govtech_assignment port=5432 sslmode=disable
+  dir: migrations
