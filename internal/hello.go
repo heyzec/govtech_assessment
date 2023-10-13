@@ -1,12 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
-    "fmt"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	"github.com/heyzec/govtech-assignment/internal/models"
+	"github.com/heyzec/govtech-assignment/internal/dataaccess"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -33,11 +33,9 @@ func main() {
     dsn := "host=localhost user=postgres password=postgres dbname=govtech_assignment port=5432 sslmode=disable TimeZone=Asia/Singapore"
     db, _ := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
-    var student []models.Student
-    _ = db.Model(models.Student{}).Find(&student)
+    students, _ := dataaccess.ListStudents(db)
 
-
-    fmt.Println(student)
+    fmt.Println(students)
 
 
 	http.ListenAndServe(":3000", r)
