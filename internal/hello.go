@@ -6,10 +6,10 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/heyzec/govtech-assignment/internal/config"
 	"github.com/heyzec/govtech-assignment/internal/dataaccess"
+	"github.com/heyzec/govtech-assignment/internal/database"
 
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 )
 
 
@@ -30,13 +30,13 @@ func main() {
         r.Post("/register", registerStudents)
     })
 
-    dsn := "host=localhost user=postgres password=postgres dbname=govtech_assignment port=5432 sslmode=disable TimeZone=Asia/Singapore"
-    db, _ := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+    cfg, _ := config.LoadEnv()
+    db := database.GetGormDB(cfg)
 
     students, _ := dataaccess.ListStudents(db)
 
     fmt.Println(students)
 
 
-	http.ListenAndServe(":3000", r)
+	http.ListenAndServe(fmt.Sprintf(":%d", cfg.ServerPort), r)
 }
