@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/heyzec/govtech-assignment/internal/errors"
+	"github.com/heyzec/govtech-assignment/internal/helpers/emailutils"
 	"github.com/heyzec/govtech-assignment/internal/helpers/json"
 )
 
@@ -27,6 +28,9 @@ func RetrieveForNotificationParseFrom(r *http.Request) (*RetrieveForNotification
 func (params *RetrieveForNotificationParams) Validate() error {
 	if params.TeacherEmail == "" {
 		return errors.NewMissingFieldError("teacher")
+	}
+	if err := emailutils.ValidateEmailValid(params.TeacherEmail); err != nil {
+		return err
 	}
 	return nil
 }

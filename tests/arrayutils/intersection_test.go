@@ -1,4 +1,4 @@
-package handlers
+package intersection_test
 
 import (
 	"testing"
