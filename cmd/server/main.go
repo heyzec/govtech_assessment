@@ -10,6 +10,7 @@ import (
 	"github.com/heyzec/govtech-assignment/internal/config"
 	"github.com/heyzec/govtech-assignment/internal/database"
 	"github.com/heyzec/govtech-assignment/internal/handlers"
+	"github.com/heyzec/govtech-assignment/internal/params"
 )
 
 func main() {
@@ -20,8 +21,8 @@ func main() {
 	db := database.GetGormDB(cfg)
 
 	r.Route("/api", func(r chi.Router) {
-		r.Post("/register", api.WrapHandler(db, handlers.HandleRegisterStudents))
-		r.Get("/commonstudents", api.WrapHandler(db, handlers.HandleCommonStudents))
+		r.Post("/register", api.WrapHandler(db, handlers.HandleRegisterStudents, params.RegisterStudentsParseFrom))
+		r.Get("/commonstudents", api.WrapHandler(db, handlers.HandleCommonStudents, params.CommonStudentsParseFrom))
 	})
 
 	http.ListenAndServe(fmt.Sprintf(":%d", cfg.ServerPort), r)

@@ -2,24 +2,18 @@ package handlers
 
 import (
 	"log"
-	"net/http"
 
 	"github.com/heyzec/govtech-assignment/internal/api"
 	"github.com/heyzec/govtech-assignment/internal/dataaccess"
 	"github.com/heyzec/govtech-assignment/internal/models"
+	"github.com/heyzec/govtech-assignment/internal/params"
 	"github.com/heyzec/govtech-assignment/internal/views"
 	"gorm.io/gorm"
 )
 
-type commonStudentsParams struct {
-	StudentEmails []string `json:"students"`
-}
+func HandleCommonStudents(params *params.CommonStudentsParams, db *gorm.DB) (*api.Response, error) {
 
-func HandleCommonStudents(r *http.Request, db *gorm.DB) (*api.Response, error) {
-	// Parse URL parameter
-	teacherEmails := r.URL.Query()["teacher"]
-
-	teachers, err := dataaccess.FindTeachersByEmail(db, teacherEmails)
+	teachers, err := dataaccess.FindTeachersByEmail(db, params.TeacherEmails)
 	if err != nil {
 		// TODO: Return 404
 		log.Println(err)

@@ -14,12 +14,18 @@ type Response struct {
 	JSONPayload interface{}
 }
 
-type Handler = func(r *http.Request, db *gorm.DB) (*Response, error)
-
 // Wrapper around http.Handler to abstract use of http.ResponseWriter
-func WrapHandler(db *gorm.DB, handler Handler) http.HandlerFunc {
+func WrapHandler[T interface{}](db *gorm.DB,
+	handler func(T, *gorm.DB) (*Response, error),
+	parser func(*http.Request) (T, error)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		res, err := handler(r, db)
+
+		params, err := parser(r)
+		if err != nil {
+			log.Println("Failed to parse")
+		}
+
+		res, err := handler(params, db)
 
 		if err != nil {
 			handleHTTPFailure(w, err)
