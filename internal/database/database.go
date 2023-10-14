@@ -6,9 +6,9 @@ import (
 	"log"
 
 	"github.com/heyzec/govtech-assignment/internal/config"
+	_ "github.com/lib/pq"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	_ "github.com/lib/pq"
 )
 
 func buildDSN(cfg *config.Config) string {
@@ -26,17 +26,17 @@ func GetGormDB(cfg *config.Config) *gorm.DB {
 	dsn := buildDSN(cfg)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-        log.Fatalf("Failed to connect to database: %v\n", err)
+		log.Fatalf("Failed to connect to database: %v\n", err)
 	}
 	log.Printf("Connected to database: %s\n", cfg.DBName)
 	return db
 }
 
-func GetSQLDB(cfg *config.Config) *sql.DB{
-    dsn := buildDSN(cfg)
-    db, err := sql.Open("postgres", dsn)
+func GetSQLDB(cfg *config.Config) *sql.DB {
+	dsn := buildDSN(cfg)
+	db, err := sql.Open("postgres", dsn)
 	if err != nil {
-        log.Fatalf("Failed to connect to database: %v\n", err)
+		log.Fatalf("Failed to connect to database: %v\n", err)
 	}
-    return db
+	return db
 }

@@ -52,7 +52,7 @@ func LoadEnv() *Config {
 	configFilePath := filepath.Join(cwd, configFileName)
 	if _, err := os.Stat(configFilePath); err != nil {
 		log.Fatalf("Config file does not exist: %s\n", configFileName)
-	 }
+	}
 	err := godotenv.Load(configFilePath)
 	if err != nil {
 		log.Panic(err.Error())

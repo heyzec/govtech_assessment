@@ -14,14 +14,13 @@ func main() {
 	fmt.Println(cfg)
 	db := database.GetSQLDB(cfg)
 
-    migrations := &migrate.FileMigrationSource{
-        Dir: "migrations",
-    }
+	migrations := &migrate.FileMigrationSource{
+		Dir: "migrations",
+	}
 
-    steps, err := migrate.ExecMax(db, "postgres", migrations, migrate.Up, 0)
+	steps, err := migrate.ExecMax(db, "postgres", migrations, migrate.Up, 0)
 	if err != nil {
 		log.Fatalln(err)
 	}
 	fmt.Println(steps)
 }
-
