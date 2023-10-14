@@ -6,32 +6,18 @@ import (
 
 	"gorm.io/gorm"
 
+	"github.com/heyzec/govtech-assignment/internal/api"
 	"github.com/heyzec/govtech-assignment/internal/dataaccess"
 	"github.com/heyzec/govtech-assignment/internal/json"
 	"github.com/heyzec/govtech-assignment/internal/models"
+	"github.com/heyzec/govtech-assignment/internal/views"
 )
 
 type commonStudentsParams struct {
     StudentEmails []string `json:"students"`
 }
 
-type commonStudentsView struct {
-    StudentEmails []string `json:"students"`
-}
-
-func ViewFrom(students []models.Student) commonStudentsView {
-    emails := []string{}
-    for _, student := range students {
-        emails = append(emails, student.Email)
-    }
-
-    view := commonStudentsView{}
-    view.StudentEmails = emails
-    return view
-
-}
-
-func HandleCommonStudents(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
+func HandleCommonStudents(r *http.Request, db *gorm.DB) (*api.Response) {
 	// Parse URL parameter
     teacherEmails := r.URL.Query()["teacher"]
 
@@ -39,7 +25,7 @@ func HandleCommonStudents(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
     if err != nil {
         // TODO: Return 404
         log.Println(err)
-        return
+        return nil
     }
 
     studentsMap := make(map[uint]*models.Student)
@@ -60,18 +46,17 @@ func HandleCommonStudents(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
         studentsList = append(studentsList, *student)
     }
 
-    view := ViewFrom(studentsList)
+    view := views.CommonStudentsViewFrom(studentsList)
 
     raw, err := json.EncodeView(view)
     if err != nil {
         println("Error encoding view")
-        return
+        return nil
     }
 
-
-    w.Header().Set("Content-Type", "application/json")
-    w.WriteHeader(http.StatusOK)
-    w.Write(raw)
-    return
+    return &api.Response{
+        Payload: raw,
+        HTTPCode: http.StatusOK,
+    }
 }
 

@@ -4,8 +4,9 @@ import (
 	"log"
 	"net/http"
 
-    "gorm.io/gorm"
+	"gorm.io/gorm"
 
+	"github.com/heyzec/govtech-assignment/internal/api"
 	"github.com/heyzec/govtech-assignment/internal/dataaccess"
 	"github.com/heyzec/govtech-assignment/internal/json"
 )
@@ -16,32 +17,34 @@ type registerStudentsParams struct {
 }
 
 
-func RegisterStudents(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
+func HandleRegisterStudents(r *http.Request, db *gorm.DB) (*api.Response) {
 
     // Parse request body
     var registerStudentsParams registerStudentsParams
     err := json.DecodeParams(r.Body, &registerStudentsParams)
     if err != nil {
         log.Println(err.Error())
-        w.WriteHeader(http.StatusBadRequest)
-        return
+        return &api.Response{
+            HTTPCode: http.StatusBadRequest,
+        }
     }
 
     students, _ := dataaccess.FindStudentsByEmail(db, registerStudentsParams.StudentEmails)
     if err != nil {
         log.Println(err)
-        return
+        return nil
     }
 
     teachers, err := dataaccess.FindTeachersByEmail(db, []string{registerStudentsParams.TeacherEmail})
     if err != nil {
         log.Println(err)
-        return
+        return nil
     }
 
     dataaccess.RegisterStudentsToTeacher(db, &teachers[0], students)
 
-    w.WriteHeader(http.StatusNoContent)
-    return
+    return &api.Response{
+        HTTPCode: http.StatusNoContent,
+    }
 }
 
