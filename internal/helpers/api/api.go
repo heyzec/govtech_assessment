@@ -23,7 +23,8 @@ func WrapHandler[T interface{}](db *gorm.DB,
 
 		params, err := parser(r)
 		if err != nil {
-			log.Println("Failed to parse")
+			handleHTTPFailure(w, err)
+			return
 		}
 
 		res, err := handler(params, db)
