@@ -1,6 +1,8 @@
 package seeds
 
 import (
+	"log"
+
 	"github.com/heyzec/govtech-assignment/internal/dataaccess"
 	"github.com/heyzec/govtech-assignment/internal/models"
 	"gorm.io/gorm"
@@ -12,8 +14,14 @@ func RunSeed(db *gorm.DB) {
 	// 	*TeacherKen,
 	// 	*TeacherJoe,
 	// }
-	TeacherKen, _ = dataaccess.CreateTeacher(db, TeacherKen)
-	TeacherJoe, _ = dataaccess.CreateTeacher(db, TeacherJoe)
+	TeacherKen, err := dataaccess.CreateTeacher(db, TeacherKen)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	TeacherJoe, err := dataaccess.CreateTeacher(db, TeacherJoe)
+	if err != nil {
+		log.Fatalln(err)
+	}
 
 	// Set-up relations
 	StudentCommon1.Teachers = []models.Teacher{*TeacherKen, *TeacherJoe}
@@ -30,6 +38,9 @@ func RunSeed(db *gorm.DB) {
 	}
 
 	for _, student := range AllStudents {
-		dataaccess.CreateStudent(db, &student)
+		_, err := dataaccess.CreateStudent(db, &student)
+		if err != nil {
+			log.Fatalln(err)
+		}
 	}
 }
