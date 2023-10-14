@@ -6,6 +6,7 @@ import (
 
 	"github.com/heyzec/govtech-assignment/internal/errors"
 	"github.com/heyzec/govtech-assignment/internal/helpers/json"
+	"github.com/heyzec/govtech-assignment/internal/views"
 	"gorm.io/gorm"
 )
 
@@ -55,12 +56,19 @@ func handleHTTPSuccess(w http.ResponseWriter, res *Response) {
 }
 
 func handleHTTPFailure(w http.ResponseWriter, err error) {
-	w.Header().Set("Content-Type", "plain/text")
+	w.Header().Set("Content-Type", "application/json")
 
 	var i interface{} = err
 	exterr, ok := i.(errors.ExternalError)
 	if ok {
 		w.WriteHeader(exterr.HTTPCode())
 	}
-	w.Write([]byte(err.Error()))
+
+	view := views.ErrorMessageViewFrom(err.Error())
+	rawBytes, err := json.EncodeView(view)
+	if err != nil {
+		log.Println("Error encoding view")
+		return
+	}
+	w.Write(rawBytes)
 }
