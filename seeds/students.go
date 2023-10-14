@@ -18,6 +18,15 @@ func CreateStudents(db *gorm.DB) {
         {
             Email: "studenthon@gmail.com",
         },
+        {
+            Email: "commonstudent1@gmail.com",
+        },
+        {
+            Email: "commonstudent2@gmail.com",
+        },
+        {
+            Email: "student_only_under_teacher_ken@gmail.com",
+        },
     }
 
     for _, student := range students {

@@ -22,6 +22,9 @@ func main() {
         r.Post("/register", func(w http.ResponseWriter, r *http.Request) {
             handlers.RegisterStudents(w, r, db)
         })
+        r.Get("/commonstudents", func(w http.ResponseWriter, r *http.Request) {
+            handlers.HandleCommonStudents(w, r, db)
+        })
     })
 
 	http.ListenAndServe(fmt.Sprintf(":%d", cfg.ServerPort), r)

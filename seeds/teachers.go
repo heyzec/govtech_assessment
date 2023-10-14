@@ -13,6 +13,9 @@ func CreateTeachers(db *gorm.DB) {
         {
             Email: "teacherken@gmail.com",
         },
+        {
+            Email: "teacherjoe@gmail.com",
+        },
     }
 
     for _, seedable := range seedables {

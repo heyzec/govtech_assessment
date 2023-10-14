@@ -30,7 +30,11 @@ func FindTeachersByEmail(db *gorm.DB, emails []string) ([]models.Teacher, error)
     var teacherList []models.Teacher
     for _, email := range emails {
         var teacher models.Teacher
-        err := db.Model(models.Teacher{}).Where("email = ?", email).First(&teacher).Error
+        err := db.Model(models.Teacher{}).
+            Preload("Students").
+            Where("email = ?", email).
+            First(&teacher).
+            Error
         if err != nil {
             return nil, errors.New("Teacher not found")
         }

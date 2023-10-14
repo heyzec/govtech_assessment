@@ -13,3 +13,12 @@ func DecodeParams(r io.Reader, view interface{}) error {
     }
     return nil
 }
+
+func EncodeView(view interface{}) ([]byte, error) {
+	data, err := json.Marshal(view)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
