@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestSuccess1(t *testing.T) {
+func TestCommonStudentsSuccess1(t *testing.T) {
 	cfg := config.LoadEnv()
 	db := database.GetGormDB(cfg)
 
@@ -32,7 +32,7 @@ func TestSuccess1(t *testing.T) {
 	require.Equal(t, output.JSONPayload, expected)
 }
 
-func TestSuccess2(t *testing.T) {
+func TestCommonStudentsSuccess2(t *testing.T) {
 	cfg := config.LoadEnv()
 	db := database.GetGormDB(cfg)
 

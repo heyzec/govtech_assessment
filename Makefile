@@ -1,5 +1,6 @@
 CMD_SEED_PATH=./cmd/seeds/main.go
 CMD_SERVER_PATH=./cmd/server/main.go
+CMD_MIGRATE_PATH=./cmd/migration/main.go
 
 HAS_REFLEX := $(shell command -v reflex 2> /dev/null)
 
@@ -22,7 +23,10 @@ seed-tests:
 
 migrate:
 	@echo "Migrating database..."
-	sql-migrate up
+	@GO_ENV=development go run ${CMD_MIGRATE_PATH}
+migrate-tests:
+	@echo "Migrating database..."
+	@GO_ENV=testing go run ${CMD_MIGRATE_PATH}
 
 rollback:
 	@echo "Rollback database by 1 step..."

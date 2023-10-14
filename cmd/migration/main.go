@@ -11,7 +11,6 @@ import (
 
 func main() {
 	cfg := config.LoadEnv()
-	fmt.Println(cfg)
 	db := database.GetSQLDB(cfg)
 
 	migrations := &migrate.FileMigrationSource{
@@ -22,5 +21,5 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	fmt.Println(steps)
+	fmt.Printf("Applied %d migrations!\n", steps)
 }

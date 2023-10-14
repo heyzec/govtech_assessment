@@ -8,11 +8,10 @@ import (
 	"github.com/heyzec/govtech-assignment/internal/helpers/config"
 	"github.com/heyzec/govtech-assignment/internal/helpers/database"
 	"github.com/heyzec/govtech-assignment/internal/params"
-	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
-func TestSuccess(t *testing.T) {
+func TestSuspendSuccess(t *testing.T) {
 	cfg := config.LoadEnv()
 	db := database.GetGormDB(cfg)
 
@@ -21,11 +20,11 @@ func TestSuccess(t *testing.T) {
 	}
 
 	res, err := handlers.HandleSuspend(params, db)
-	assert.Nil(t, res)
-	assert.Nil(t, err)
+	require.Nil(t, res)
+	require.Nil(t, err)
 }
 
-func TestNotFound(t *testing.T) {
+func TestSuspendNotFound(t *testing.T) {
 	cfg := config.LoadEnv()
 	db := database.GetGormDB(cfg)
 
@@ -34,7 +33,7 @@ func TestNotFound(t *testing.T) {
 	}
 
 	res, err := handlers.HandleSuspend(params, db)
-	assert.Nil(t, res)
+	require.Nil(t, res)
 	var customErr *errors.NotFoundError
 	require.ErrorAs(t, err, &customErr)
 }
