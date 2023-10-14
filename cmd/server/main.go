@@ -23,6 +23,7 @@ func main() {
 	r.Route("/api", func(r chi.Router) {
 		r.Post("/register", api.WrapHandler(db, handlers.HandleRegisterStudents, params.RegisterStudentsParseFrom))
 		r.Get("/commonstudents", api.WrapHandler(db, handlers.HandleCommonStudents, params.CommonStudentsParseFrom))
+		r.Post("/suspend", api.WrapHandler(db, handlers.HandleSuspend, params.SuspendParamsParseFrom))
 	})
 
 	http.ListenAndServe(fmt.Sprintf(":%d", cfg.ServerPort), r)

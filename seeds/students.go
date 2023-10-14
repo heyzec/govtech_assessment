@@ -17,3 +17,6 @@ var StudentCommon2 = &models.Student{
 var StudentOnlyUnderTeacherKen = &models.Student{
 	Email: "student_only_under_teacher_ken@gmail.com",
 }
+var StudentMary = &models.Student{
+	Email: "studentmary@gmail.com",
+}

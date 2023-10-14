@@ -26,6 +26,7 @@ func RunSeed(db *gorm.DB) {
 		*StudentCommon1,
 		*StudentCommon2,
 		*StudentOnlyUnderTeacherKen,
+		*StudentMary,
 	}
 
 	for _, student := range AllStudents {

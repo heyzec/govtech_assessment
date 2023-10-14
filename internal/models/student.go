@@ -7,8 +7,9 @@ import (
 
 type Student struct {
 	gorm.Model
-	Email    string    `gorm:"not null"`
-	Teachers []Teacher `gorm:"many2many:students_teachers;"`
+	Email     string    `gorm:"not null"`
+	Teachers  []Teacher `gorm:"many2many:students_teachers;"`
+	Suspended bool      `gorm:"not null;"`
 }
 
 func (student *Student) Validate() error {

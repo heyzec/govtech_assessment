@@ -45,3 +45,9 @@ func FindStudentsByEmail(db *gorm.DB, emails []string) ([]models.Student, error)
 
 	return studentList, nil
 }
+
+func SuspendStudent(db *gorm.DB, student *models.Student) (*models.Student, error) {
+	student.Suspended = true
+	db.Updates(student)
+	return student, nil
+}
