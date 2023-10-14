@@ -2,8 +2,8 @@ package routes
 
 import (
 	"github.com/go-chi/chi/v5"
-	"github.com/heyzec/govtech-assignment/internal/api"
 	"github.com/heyzec/govtech-assignment/internal/handlers"
+	"github.com/heyzec/govtech-assignment/internal/helpers/api"
 	"github.com/heyzec/govtech-assignment/internal/params"
 	"gorm.io/gorm"
 )

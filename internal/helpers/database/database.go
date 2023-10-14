@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/heyzec/govtech-assignment/internal/config"
+	"github.com/heyzec/govtech-assignment/internal/helpers/config"
 	_ "github.com/lib/pq"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/heyzec/govtech-assignment/internal/errors"
-	"github.com/heyzec/govtech-assignment/internal/json"
+	"github.com/heyzec/govtech-assignment/internal/helpers/json"
 	"gorm.io/gorm"
 )
 

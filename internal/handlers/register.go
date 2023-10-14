@@ -3,8 +3,8 @@ package handlers
 import (
 	"log"
 
-	"github.com/heyzec/govtech-assignment/internal/api"
 	"github.com/heyzec/govtech-assignment/internal/dataaccess"
+	"github.com/heyzec/govtech-assignment/internal/helpers/api"
 	"github.com/heyzec/govtech-assignment/internal/params"
 	"gorm.io/gorm"
 )

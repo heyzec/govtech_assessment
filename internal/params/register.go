@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/heyzec/govtech-assignment/internal/json"
+	"github.com/heyzec/govtech-assignment/internal/helpers/json"
 )
 
 type RegisterStudentsParams struct {

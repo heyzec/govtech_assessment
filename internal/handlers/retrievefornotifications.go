@@ -5,9 +5,9 @@ import (
 	"log"
 	"regexp"
 
-	"github.com/heyzec/govtech-assignment/internal/api"
 	"github.com/heyzec/govtech-assignment/internal/dataaccess"
-	"github.com/heyzec/govtech-assignment/internal/emailutils"
+	"github.com/heyzec/govtech-assignment/internal/helpers/api"
+	"github.com/heyzec/govtech-assignment/internal/helpers/emailutils"
 	"github.com/heyzec/govtech-assignment/internal/models"
 	"github.com/heyzec/govtech-assignment/internal/params"
 	"github.com/heyzec/govtech-assignment/internal/views"

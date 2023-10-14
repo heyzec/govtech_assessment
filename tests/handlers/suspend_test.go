@@ -3,10 +3,10 @@ package handlers
 import (
 	"testing"
 
-	"github.com/heyzec/govtech-assignment/internal/config"
-	"github.com/heyzec/govtech-assignment/internal/database"
 	"github.com/heyzec/govtech-assignment/internal/errors"
 	"github.com/heyzec/govtech-assignment/internal/handlers"
+	"github.com/heyzec/govtech-assignment/internal/helpers/config"
+	"github.com/heyzec/govtech-assignment/internal/helpers/database"
 	"github.com/heyzec/govtech-assignment/internal/params"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

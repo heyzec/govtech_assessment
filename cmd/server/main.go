@@ -6,8 +6,8 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	"github.com/heyzec/govtech-assignment/internal/config"
-	"github.com/heyzec/govtech-assignment/internal/database"
+	"github.com/heyzec/govtech-assignment/internal/helpers/config"
+	"github.com/heyzec/govtech-assignment/internal/helpers/database"
 	"github.com/heyzec/govtech-assignment/internal/routes"
 )
 

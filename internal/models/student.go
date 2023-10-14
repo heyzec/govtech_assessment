@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/heyzec/govtech-assignment/internal/emailutils"
+	"github.com/heyzec/govtech-assignment/internal/helpers/emailutils"
 	"gorm.io/gorm"
 )
 

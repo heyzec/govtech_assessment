@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/heyzec/govtech-assignment/internal/config"
-	"github.com/heyzec/govtech-assignment/internal/database"
+	"github.com/heyzec/govtech-assignment/internal/helpers/config"
+	"github.com/heyzec/govtech-assignment/internal/helpers/database"
 	migrate "github.com/rubenv/sql-migrate"
 )
 

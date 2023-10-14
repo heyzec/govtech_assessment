@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/heyzec/govtech-assignment/internal/config"
-	"github.com/heyzec/govtech-assignment/internal/database"
+	"github.com/heyzec/govtech-assignment/internal/helpers/config"
+	"github.com/heyzec/govtech-assignment/internal/helpers/database"
 	"github.com/heyzec/govtech-assignment/seeds"
 )
 
