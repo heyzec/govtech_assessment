@@ -9,6 +9,7 @@ import (
 )
 
 func SetupRoutes(r chi.Router, db *gorm.DB) {
+	r.Get("/", RootHandler)
 	r.Route("/api", func(r chi.Router) {
 		r.Post("/register", api.WrapHandler(db, handlers.HandleRegisterStudents, params.RegisterStudentsParseFrom))
 		r.Get("/commonstudents", api.WrapHandler(db, handlers.HandleCommonStudents, params.CommonStudentsParseFrom))
