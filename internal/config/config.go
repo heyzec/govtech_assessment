@@ -1,6 +1,7 @@
 package config
 
 import (
+	"log"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -19,12 +20,23 @@ type Config struct {
 	DBSSLMode  string
 }
 
-func LoadEnv() (*Config, error) {
+func LoadEnv() *Config {
+	env := os.Getenv("GO_ENV")
+	var configFileName string
+	switch env {
+	case "development":
+		configFileName = ".env.development"
+	case "testing":
+		configFileName = ".env.testing"
+	default:
+		log.Fatal("Please ensure GO_ENV is either 'development' or 'testing'")
+	}
+
 	cwd, _ := os.Getwd()
 	cwd, _ = filepath.EvalSymlinks(cwd)
-	err := godotenv.Load(cwd + "/" + ".env")
+	err := godotenv.Load(filepath.Join(cwd, configFileName))
 	if err != nil {
-		return nil, err
+		log.Fatalf("Unable to load file: %s\n", configFileName)
 	}
 
 	var config Config
@@ -36,5 +48,5 @@ func LoadEnv() (*Config, error) {
 	config.DBPassword = os.Getenv("DB_PASSWORD")
 	config.DBSSLMode = os.Getenv("DB_SSLMODE")
 
-	return &config, nil
+	return &config
 }

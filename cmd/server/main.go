@@ -17,7 +17,7 @@ func main() {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 
-	cfg, _ := config.LoadEnv()
+	cfg := config.LoadEnv()
 	db := database.GetGormDB(cfg)
 
 	r.Route("/api", func(r chi.Router) {
