@@ -17,6 +17,16 @@ var StudentCommon2 = &models.Student{
 var StudentOnlyUnderTeacherKen = &models.Student{
 	Email: "student_only_under_teacher_ken@gmail.com",
 }
+
+// Added in US3
 var StudentMary = &models.Student{
 	Email: "studentmary@gmail.com",
 }
+
+// Added in US4
+// var StudentAgnes = &models.Student{
+// 	Email: "studentagnes@gmail.com",
+// }
+// var StudentMiche = &models.Student{
+// 	Email: "studentmiche@gmail.com",
+// }

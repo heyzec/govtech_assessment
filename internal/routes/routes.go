@@ -13,5 +13,6 @@ func SetupRoutes(r chi.Router, db *gorm.DB) {
 		r.Post("/register", api.WrapHandler(db, handlers.HandleRegisterStudents, params.RegisterStudentsParseFrom))
 		r.Get("/commonstudents", api.WrapHandler(db, handlers.HandleCommonStudents, params.CommonStudentsParseFrom))
 		r.Post("/suspend", api.WrapHandler(db, handlers.HandleSuspend, params.SuspendParamsParseFrom))
+		r.Post("/retrievefornotifications", api.WrapHandler(db, handlers.HandleRetrieveForNotifications, params.RetrieveForNotificationParseFrom))
 	})
 }
