@@ -1,12 +1,14 @@
 package database
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 
 	"github.com/heyzec/govtech-assignment/internal/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	_ "github.com/lib/pq"
 )
 
 func buildDSN(cfg *config.Config) string {
@@ -22,16 +24,19 @@ func buildDSN(cfg *config.Config) string {
 
 func GetGormDB(cfg *config.Config) *gorm.DB {
 	dsn := buildDSN(cfg)
-	db, _ := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if err != nil {
+        log.Fatalf("Failed to connect to database: %v\n", err)
+	}
 	log.Printf("Connected to database: %s\n", cfg.DBName)
 	return db
 }
 
-//func getSqlDB() *sql.DB{
-//    dsn := buildDSN()
-//    db, err := sql.Open("postgres", dsn)
-//	if err != nil {
-//        log.Fatalf("Failed to connect to default database: %v\n", err)
-//	}
-//    return db
-//}
+func GetSQLDB(cfg *config.Config) *sql.DB{
+    dsn := buildDSN(cfg)
+    db, err := sql.Open("postgres", dsn)
+	if err != nil {
+        log.Fatalf("Failed to connect to database: %v\n", err)
+	}
+    return db
+}

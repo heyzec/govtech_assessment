@@ -16,6 +16,10 @@ seed:
 	@echo "Seeding database..."
 	@GO_ENV=development go run ${CMD_SEED_PATH}
 
+seed-tests:
+	@echo "Seeding testing database..."
+	@GO_ENV=testing go run ${CMD_SEED_PATH}
+
 migrate:
 	@echo "Migrating database..."
 	sql-migrate up

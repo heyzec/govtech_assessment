@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+	"strings"
 
 	"github.com/joho/godotenv"
 )
@@ -21,8 +22,23 @@ type Config struct {
 }
 
 func LoadEnv() *Config {
+	// UNIDEAL WORKAROUND: Unable to use go test without it changing the directory
+	// https://stackoverflow.com/questions/23847003/golang-tests-and-working-directory
+	cwd, _ := os.Getwd()
+	if strings.HasSuffix(cwd, "/tests/handlers") {
+		os.Chdir("../..")
+		cwd, _ = os.Getwd()
+	}
+
 	env := os.Getenv("GO_ENV")
 	var configFileName string
+
+	if env == "" {
+		// This running tests within VSCode possible
+		env = "testing"
+		os.Setenv("GO_ENV", "testing")
+	}
+
 	switch env {
 	case "development":
 		configFileName = ".env.development"
@@ -32,10 +48,14 @@ func LoadEnv() *Config {
 		log.Fatal("Please ensure GO_ENV is either 'development' or 'testing'")
 	}
 
-	cwd, _ := os.Getwd()
 	cwd, _ = filepath.EvalSymlinks(cwd)
-	err := godotenv.Load(filepath.Join(cwd, configFileName))
+	configFilePath := filepath.Join(cwd, configFileName)
+	if _, err := os.Stat(configFilePath); err != nil {
+		log.Fatalf("Config file does not exist: %s\n", configFileName)
+	 }
+	err := godotenv.Load(configFilePath)
 	if err != nil {
+		log.Panic(err.Error())
 		log.Fatalf("Unable to load file: %s\n", configFileName)
 	}
 

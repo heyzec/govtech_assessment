@@ -8,15 +8,17 @@ import (
 
 func RunSeed(db *gorm.DB) {
 
+	// var AllTeachers = []models.Teacher{
+	// 	*TeacherKen,
+	// 	*TeacherJoe,
+	// }
+	TeacherKen, _ = dataaccess.CreateTeacher(db, TeacherKen)
+	TeacherJoe, _ = dataaccess.CreateTeacher(db, TeacherJoe)
+
 	// Set-up relations
 	StudentCommon1.Teachers = []models.Teacher{*TeacherKen, *TeacherJoe}
 	StudentCommon2.Teachers = []models.Teacher{*TeacherKen, *TeacherJoe}
 	StudentOnlyUnderTeacherKen.Teachers = []models.Teacher{*TeacherKen}
-
-	var AllTeachers = []models.Teacher{
-		*TeacherKen,
-		*TeacherJoe,
-	}
 
 	var AllStudents = []models.Student{
 		*StudentJon,
@@ -26,9 +28,6 @@ func RunSeed(db *gorm.DB) {
 		*StudentOnlyUnderTeacherKen,
 	}
 
-	for _, teacher := range AllTeachers {
-		dataaccess.CreateTeacher(db, &teacher)
-	}
 	for _, student := range AllStudents {
 		dataaccess.CreateStudent(db, &student)
 	}
