@@ -11,14 +11,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestIntersection(t *testing.T) {
-	nums1 := []uint{1, 2, 3, 4}
-	nums2 := []uint{3, 4, 5, 6}
-	expected := []uint{3, 4}
-	output := handlers.Intersection(nums1, nums2)
-	require.Equal(t, expected, output)
-}
-
 func TestSuccess1(t *testing.T) {
 	cfg := config.LoadEnv()
 	db := database.GetGormDB(cfg)

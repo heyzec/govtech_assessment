@@ -5,33 +5,14 @@ import (
 
 	"github.com/heyzec/govtech-assignment/internal/dataaccess"
 	"github.com/heyzec/govtech-assignment/internal/helpers/api"
+	"github.com/heyzec/govtech-assignment/internal/helpers/arrayutils"
 	"github.com/heyzec/govtech-assignment/internal/models"
 	"github.com/heyzec/govtech-assignment/internal/params"
 	"github.com/heyzec/govtech-assignment/internal/views"
 	"gorm.io/gorm"
 )
 
-func Intersection(nums1 []uint, nums2 []uint) []uint {
-	allNums := make(map[uint]bool)
-	for _, i := range nums1 {
-		allNums[i] = false
-	}
-	for _, i := range nums2 {
-		if _, value := allNums[i]; value {
-			allNums[i] = true
-		}
-	}
-	output := []uint{}
-	for i, b := range allNums {
-		if b {
-			output = append(output, i)
-		}
-	}
-	return output
-}
-
 func HandleCommonStudents(params *params.CommonStudentsParams, db *gorm.DB) (*api.Response, error) {
-
 	teachers, err := dataaccess.FindTeachersByEmail(db, params.TeacherEmails)
 	if err != nil {
 		// TODO: Return 404
@@ -52,7 +33,7 @@ func HandleCommonStudents(params *params.CommonStudentsParams, db *gorm.DB) (*ap
 		if i == 0 {
 			intersected = studentIds
 		} else {
-			intersected = Intersection(intersected, studentIds)
+			intersected = arrayutils.Intersection(intersected, studentIds)
 		}
 	}
 
