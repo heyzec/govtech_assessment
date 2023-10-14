@@ -6,7 +6,6 @@ import (
 
 	"github.com/heyzec/govtech-assignment/internal/api"
 	"github.com/heyzec/govtech-assignment/internal/dataaccess"
-	"github.com/heyzec/govtech-assignment/internal/json"
 	"github.com/heyzec/govtech-assignment/internal/models"
 	"github.com/heyzec/govtech-assignment/internal/views"
 	"gorm.io/gorm"
@@ -47,13 +46,7 @@ func HandleCommonStudents(r *http.Request, db *gorm.DB) (*api.Response, error) {
 
 	view := views.CommonStudentsViewFrom(studentsList)
 
-	raw, err := json.EncodeView(view)
-	if err != nil {
-		println("Error encoding view")
-		return nil, err
-	}
-
 	return &api.Response{
-		Payload: raw,
+		JSONPayload: &view,
 	}, nil
 }

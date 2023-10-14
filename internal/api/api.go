@@ -1,15 +1,17 @@
 package api
 
 import (
-	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/heyzec/govtech-assignment/internal/errors"
+	"github.com/heyzec/govtech-assignment/internal/json"
 	"gorm.io/gorm"
 )
 
 type Response struct {
-	Payload json.RawMessage `json:"data,omitempty"`
+	//Payload json.RawMessage `json:"data,omitempty"`
+	JSONPayload interface{}
 }
 
 type Handler = func(r *http.Request, db *gorm.DB) (*Response, error)
@@ -17,26 +19,42 @@ type Handler = func(r *http.Request, db *gorm.DB) (*Response, error)
 // Wrapper around http.Handler to abstract use of http.ResponseWriter
 func WrapHandler(db *gorm.DB, handler Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		response, err := handler(r, db)
+		res, err := handler(r, db)
 
 		if err != nil {
-			w.Header().Set("Content-Type", "plain/text")
-
-			var i interface{} = err
-			exterr, ok := i.(errors.ExternalError)
-			if ok {
-				w.WriteHeader(exterr.HTTPCode())
-			}
-			w.Write([]byte(err.Error()))
+			handleHTTPFailure(w, err)
 		} else {
-			if response != nil {
-				w.Header().Set("Content-Type", "application/json")
-				w.WriteHeader(http.StatusOK)
-				w.Write(response.Payload)
-			} else {
-				w.WriteHeader(http.StatusNoContent)
-			}
+			handleHTTPSuccess(w, res)
 		}
 
 	}
+}
+
+func handleHTTPSuccess(w http.ResponseWriter, res *Response) {
+	if res == nil {
+		w.WriteHeader(http.StatusNoContent)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+
+	rawBytes, err := json.EncodeView(res.JSONPayload)
+	if err != nil {
+		log.Println("Error encoding view")
+		return
+	}
+
+	w.Write(rawBytes)
+}
+
+func handleHTTPFailure(w http.ResponseWriter, err error) {
+	w.Header().Set("Content-Type", "plain/text")
+
+	var i interface{} = err
+	exterr, ok := i.(errors.ExternalError)
+	if ok {
+		w.WriteHeader(exterr.HTTPCode())
+	}
+	w.Write([]byte(err.Error()))
 }
