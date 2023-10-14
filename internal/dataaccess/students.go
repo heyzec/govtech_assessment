@@ -1,8 +1,7 @@
 package dataaccess
 
 import (
-	"errors"
-
+	"github.com/heyzec/govtech-assignment/internal/errors"
 	"github.com/heyzec/govtech-assignment/internal/models"
 	"gorm.io/gorm"
 )
@@ -36,7 +35,10 @@ func FindStudentsByEmail(db *gorm.DB, emails []string) ([]models.Student, error)
 			First(&student).
 			Error
 		if err != nil {
-			return nil, errors.New("Student not found")
+			return nil, &errors.NotFoundError{
+				ModelName: "Student",
+				Query:     email,
+			}
 		}
 		studentList = append(studentList, student)
 	}

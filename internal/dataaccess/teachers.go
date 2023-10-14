@@ -1,8 +1,7 @@
 package dataaccess
 
 import (
-	"errors"
-
+	"github.com/heyzec/govtech-assignment/internal/errors"
 	"github.com/heyzec/govtech-assignment/internal/models"
 	"gorm.io/gorm"
 )
@@ -36,7 +35,10 @@ func FindTeachersByEmail(db *gorm.DB, emails []string) ([]models.Teacher, error)
 			First(&teacher).
 			Error
 		if err != nil {
-			return nil, errors.New("Teacher not found")
+			return nil, &errors.NotFoundError{
+				ModelName: "Teacher",
+				Query:     email,
+			}
 		}
 		teacherList = append(teacherList, teacher)
 	}

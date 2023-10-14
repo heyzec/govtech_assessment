@@ -15,33 +15,28 @@ type registerStudentsParams struct {
 	StudentEmails []string `json:"students"`
 }
 
-func HandleRegisterStudents(r *http.Request, db *gorm.DB) *api.Response {
+func HandleRegisterStudents(r *http.Request, db *gorm.DB) (*api.Response, error) {
 
 	// Parse request body
 	var registerStudentsParams registerStudentsParams
 	err := json.DecodeParams(r.Body, &registerStudentsParams)
 	if err != nil {
 		log.Println(err.Error())
-		return &api.Response{
-			HTTPCode: http.StatusBadRequest,
-		}
+		return nil, err
 	}
 
-	students, _ := dataaccess.FindStudentsByEmail(db, registerStudentsParams.StudentEmails)
+	students, err := dataaccess.FindStudentsByEmail(db, registerStudentsParams.StudentEmails)
 	if err != nil {
-		log.Println(err)
-		return nil
+		return nil, err
 	}
 
 	teachers, err := dataaccess.FindTeachersByEmail(db, []string{registerStudentsParams.TeacherEmail})
 	if err != nil {
 		log.Println(err)
-		return nil
+		return nil, err
 	}
 
 	dataaccess.RegisterStudentsToTeacher(db, &teachers[0], students)
 
-	return &api.Response{
-		HTTPCode: http.StatusNoContent,
-	}
+	return nil, nil
 }

@@ -16,7 +16,7 @@ type commonStudentsParams struct {
 	StudentEmails []string `json:"students"`
 }
 
-func HandleCommonStudents(r *http.Request, db *gorm.DB) *api.Response {
+func HandleCommonStudents(r *http.Request, db *gorm.DB) (*api.Response, error) {
 	// Parse URL parameter
 	teacherEmails := r.URL.Query()["teacher"]
 
@@ -24,7 +24,7 @@ func HandleCommonStudents(r *http.Request, db *gorm.DB) *api.Response {
 	if err != nil {
 		// TODO: Return 404
 		log.Println(err)
-		return nil
+		return nil, err
 	}
 
 	studentsMap := make(map[uint]*models.Student)
@@ -50,11 +50,10 @@ func HandleCommonStudents(r *http.Request, db *gorm.DB) *api.Response {
 	raw, err := json.EncodeView(view)
 	if err != nil {
 		println("Error encoding view")
-		return nil
+		return nil, err
 	}
 
 	return &api.Response{
-		Payload:  raw,
-		HTTPCode: http.StatusOK,
-	}
+		Payload: raw,
+	}, nil
 }
