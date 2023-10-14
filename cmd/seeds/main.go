@@ -1,15 +1,14 @@
 package main
 
 import (
-    "gorm.io/gorm"
+	"github.com/heyzec/govtech-assignment/seeds"
 	"gorm.io/driver/postgres"
-
-    "github.com/heyzec/govtech-assignment/seeds"
+	"gorm.io/gorm"
 )
 
 func main() {
-    dsn := "host=localhost user=postgres password=postgres dbname=govtech_assignment port=5432 sslmode=disable TimeZone=Asia/Singapore"
-    db, _ := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-    seeds.CreateStudents(db)
-    seeds.CreateTeachers(db)
+	dsn := "host=localhost user=postgres password=postgres dbname=govtech_assignment port=5432 sslmode=disable TimeZone=Asia/Singapore"
+	db, _ := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	seeds.CreateStudents(db)
+	seeds.CreateTeachers(db)
 }

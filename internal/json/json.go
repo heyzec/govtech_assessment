@@ -1,17 +1,17 @@
 package json
 
 import (
-    "encoding/json"
-    "io"
+	"encoding/json"
+	"io"
 )
 
 func DecodeParams(r io.Reader, view interface{}) error {
-    decoder := json.NewDecoder(r)
-    err := decoder.Decode(view)
-    if err != nil {
-        return err
-    }
-    return nil
+	decoder := json.NewDecoder(r)
+	err := decoder.Decode(view)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func EncodeView(view interface{}) ([]byte, error) {
@@ -21,4 +21,3 @@ func EncodeView(view interface{}) ([]byte, error) {
 	}
 	return data, nil
 }
-

@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 
-
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/heyzec/govtech-assignment/internal/api"
@@ -12,18 +11,18 @@ import (
 	"github.com/heyzec/govtech-assignment/internal/database"
 	"github.com/heyzec/govtech-assignment/internal/handlers"
 )
+
 func main() {
-    r := chi.NewRouter()
+	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 
-    cfg, _ := config.LoadEnv()
-    db := database.GetGormDB(cfg)
+	cfg, _ := config.LoadEnv()
+	db := database.GetGormDB(cfg)
 
-    r.Route("/api", func(r chi.Router) {
-        r.Post("/register", api.WrapHandler(db, handlers.HandleRegisterStudents))
-        r.Get("/commonstudents", api.WrapHandler(db, handlers.HandleCommonStudents))
-    })
+	r.Route("/api", func(r chi.Router) {
+		r.Post("/register", api.WrapHandler(db, handlers.HandleRegisterStudents))
+		r.Get("/commonstudents", api.WrapHandler(db, handlers.HandleCommonStudents))
+	})
 
 	http.ListenAndServe(fmt.Sprintf(":%d", cfg.ServerPort), r)
 }
-

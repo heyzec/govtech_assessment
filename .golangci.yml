@@ -1,0 +1,10 @@
+# Refer to https://github.com/golangci/golangci-lint
+
+# This line seems to have no effect, we pass it as CLI arg from Makefile
+disable-all: true
+
+linters:
+  enable:
+    - gofmt
+    - gci
+

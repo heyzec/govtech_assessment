@@ -24,3 +24,7 @@ rollback:
 	@echo "Rollback database by 1 step..."
 	sql-migrate down 1 
 
+lint:
+	@echo "Running linters..."
+	golangci-lint run --fix --disable-all
+
