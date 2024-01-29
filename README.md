@@ -6,7 +6,7 @@ Assignment Received: 9 Oct 2023
 
 Assignment Deadline: 14 Oct 2023
 
-Link to deployment: http://heyzec.mooo.com:8000
+Link to deployment: ~http://heyzec.mooo.com:8000~
 
 
 ## Project structure
